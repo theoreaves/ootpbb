@@ -16,28 +16,38 @@ class GenerateMiddleEarthNames extends Command
         // Ethnicity-specific roots based on Tolkien-inspired naming
         $roots = [
             'Elven' => [
-                'first' => ['El', 'Gal', 'Fin', 'Ara', 'Celeb', 'Thrand', 'Elen', 'Luth', 'Aear', 'Nim', 'Laeg', 'Thal', 'Glor', 'Taur', 'Amdir', 'Fael', 'Anar', 'Maeg', 'Rú', 'Mith'],
+                'first' => ['El', 'Gal', 'Fin', 'Ara', 'Celeb', 'Thrand', 'Elen', 'Luth', 'Aear', 'Nim', 'Laeg', 'Thal', 'Glor', 'Taur', 'Amdir', 'Fael', 'Anar', 'Maeg', 'Rú', 'Mith', 'Rin'],
                 'last' => ['mir', 'dil', 'ion', 'gorn', 'las', 'wen', 'thel', 'gwaith', 'iel', 'aran', 'rohir', 'lómë', 'anar', 'eär', 'sir', 'sil', 'dor', 'loth', 'gíl', 'rûn'],
+                'firstFull' => ['Elrond', 'Galadriel', 'Finrod', 'Aragorn', 'Celeborn', 'Thranduil', 'Elenwë', 'Lúthien', 'Aearon', 'Nimrodel', 'Laegolas', 'Thalion', 'Glorfindel', 'Tauriel', 'Amdirion', 'Faelivrin', 'Anarion', 'Maeglin', 'Rúmil', 'Mithrellas'],
+                'lastFull' => ['Mirdain', 'Díriel', 'Iondil', 'Gornion', 'Lasgalen', 'Wenloth', 'Thelindë', 'Gwaithien', 'Ielwen', 'Aranor', 'Rohirrim', 'Lómelindi', 'Anarion', 'Eärendil', 'Siriondil', 'Silmarien', 'Doriathrin', 'Lothlórien', 'Gil-galad', 'Rúmilion']
             ],
             'Dwarven' => [
                 'first' => ['Thráin', 'Dáin', 'Gimli', 'Balin', 'Fundin', 'Durin', 'Nori', 'Bifur', 'Bombur', 'Gloin', 'Thorin', 'Dwalin', 'Frerin', 'Gróin', 'Óin', 'Narvi', 'Khîm', 'Ibun', 'Mîm', 'Azaghâl'],
                 'last' => ['stone', 'beard', 'forge', 'iron', 'helm', 'delver', 'brow', 'axe', 'pick', 'cleaver', 'rock', 'deep', 'gold', 'gem', 'ore', 'anvil', 'craft', 'burrow', 'mine', 'grit'],
+                'firstFull' => ['Thráin', 'Dáin', 'Ironfoot', 'Gimli', 'Balin', 'Fundin', 'Durin', 'Nori', 'Bifur', 'Bombur', 'Glóin', 'Thorin', 'Oakenshield', 'Dwalin', 'Frerin', 'Gróin', 'Óin', 'Narvi', 'Khîm', 'Ibun', 'Mîm', 'Azaghâl'],
+                'lastFull' => ['Stonehelm', 'Beardcleaver', 'Forgehammer', 'Ironfoot', 'Helmforge', 'Delverstone', 'Browaxe', 'Axegrip', 'Pickstone', 'Cleaverforge', 'Rockdelver', 'Deepdelver', 'Goldfinder', 'Gemcutter', 'Orefinder', 'Anvilmaster', 'Craftsman', 'Burrower', 'Minesmith', 'Gritstone']
             ],
             'Human' => [
                 'first' => ['Arag', 'Bor', 'Isild', 'Deneth', 'Éom', 'Théod', 'Elend', 'Faram', 'Anár', 'Bereg', 'Brand', 'Halm', 'Hir', 'Beorn', 'For', 'Gild', 'Amla', 'Hal', 'Her', 'Wulf'],
                 'last' => ['ric', 'helm', 'mund', 'gar', 'wine', 'here', 'son', 'ward', 'brand', 'wyn', 'bert', 'grim', 'beard', 'hold', 'stan', 'wald', 'leof', 'ald', 'bald', 'frith'],
+                'firstFull' => ['Aragorn', 'Boromir', 'Isildur', 'Denethor', 'Éomer', 'Théoden', 'Elendil', 'Faramir', 'Anárion', 'Beregond', 'Brand', 'Halmir', 'Hirgon', 'Beorn', 'Forlong', 'Gildor', 'Inglorion', 'Amlach', 'Halbarad', 'Herion', 'Wulfgar'],
+                'lastFull' => ['Ríccard', 'Helmhammer', 'Mundburg', 'Garmund', 'Wineson', 'Heremund', 'Sonof', 'Wardensson', 'Brandhelm', 'Wynhelm', 'Berthelm', 'Grimbeorn', 'Beardhelm', 'Holdfast', 'Stanhelm', 'Waldric', 'Leofric', 'Aldhelm', 'Baldric', 'Frithgar']
             ],
             'Orc' => [
                 'first' => ['Gor', 'Muzg', 'Snag', 'Grish', 'Ugl', 'Bag', 'Thrakh', 'Durz', 'Bolg', 'Nazg', 'Krag', 'Glob', 'Mork', 'Zug', 'Rag', 'Skur', 'Ghaz', 'Urg', 'Mâsh', 'Lûg'],
                 'last' => ['snaga', 'dûmp', 'foul', 'ripper', 'gash', 'blood', 'gûl', 'mangler', 'maw', 'thrak', 'lash', 'spike', 'rot', 'grub', 'biter', 'crush', 'vom', 'grit', 'fang', 'blight'],
+                'firstFull' => ['Gorbag', 'Muzgash', 'Snaga', 'Grishnákh', 'Uglúk', 'Bagronk', 'Thrakhûl', 'Durzog', 'Bolgash', 'Nazgûl', 'Kragash', 'Globgrog', 'Morkai', 'Zugzug', 'Ragash', 'Skurgash', 'Ghazgûl', 'Urgash', 'Mâshak', 'Lûgash'],
+                'lastFull' => ['Snaga', 'Dûmp', 'Foulgash', 'Ripper', 'Gash', 'Bloodgûl', 'Mangler', 'Mawthrak', 'Lashspike', 'Rotfang', 'Grubgash', 'Bitercrush', 'Vomgrit', 'Fangblight']
             ],
             'Hobbit' => [
-                'first' => [
+                'first' => [],
+                'last' => [],
+                'firstFull' => [
                     'Bilbo', 'Frodo', 'Sam', 'Merry', 'Pippin', 'Rosie', 'Lobelia', 'Ham', 'Daisy', 'Estella',
                     'Hugo', 'Milo', 'Marigold', 'Primula', 'Drogo', 'Odo', 'Halfred', 'Seredic', 'Ruby', 'Pearl',
                     'Bell', 'Filibert', 'Asphodel', 'Rorimac', 'Tolman', 'Bungo', 'Fredegar', 'Dudo', 'Goldilocks', 'Ilberic'
                 ],
-                'last' => [
+                'lastFull' => [
                     'Baggins', 'Brandybuck', 'Took', 'Gamgee', 'Proudfoot', 'Bolger', 'Hornblower', 'Chubb', 'Goodbody', 'Burrows',
                     'Grubb', 'Noakes', 'Cotton', 'Whitfoot', 'Hayward', 'Longhole', 'Sackville', 'Brownlock', 'Twofoot', 'Greenhand',
                     'Gardner', 'Overhill', 'Farthing', 'Underfoot', 'Mugwort', 'Hilldweller', 'Millbanks', 'Woolbutton', 'Boffin', 'Goodenough'
@@ -76,6 +86,10 @@ class GenerateMiddleEarthNames extends Command
             $lastRoots = $roots[$group]['last'];
 
             for ($i = 0; $i < 25000; $i++) {
+                if (empty($firstRoots) || empty($lastRoots)) {
+                    $this->error("No roots found for group: $group");
+                    continue;
+                }
                 $firstName = $firstRoots[array_rand($firstRoots)] . $lastRoots[array_rand($lastRoots)];
                 $lastName = ucfirst($lastRoots[array_rand($lastRoots)]) . $lastRoots[array_rand($lastRoots)];
 
@@ -100,6 +114,34 @@ class GenerateMiddleEarthNames extends Command
                 $l = $doc->createElement('L');
                 $l->setAttribute('lid', $lid);
                 $l->setAttribute('dist', '1');
+                $nl->appendChild($l);
+                $ln->appendChild($en);
+                $ln->appendChild($nl);
+                $lastNamesElem->appendChild($ln);
+            }
+            foreach ($roots[$group]['firstFull'] as $name) {
+                // Full First Names
+                $fn = $doc->createElement('N');
+                $fn->setAttribute('nid', $nid++);
+                $en = $doc->createElement('EN', $name);
+                $nl = $doc->createElement('NL');
+                $l = $doc->createElement('L');
+                $l->setAttribute('lid', $lid);
+                $l->setAttribute('dist', '100');
+                $nl->appendChild($l);
+                $fn->appendChild($en);
+                $fn->appendChild($nl);
+                $firstNamesElem->appendChild($fn);
+            }
+            foreach ($roots[$group]['lastFull'] as $name) {
+                // Full Last Names
+                $ln = $doc->createElement('N');
+                $ln->setAttribute('nid', $nid++);
+                $en = $doc->createElement('EN', $name);
+                $nl = $doc->createElement('NL');
+                $l = $doc->createElement('L');
+                $l->setAttribute('lid', $lid);
+                $l->setAttribute('dist', '100');
                 $nl->appendChild($l);
                 $ln->appendChild($en);
                 $ln->appendChild($nl);
@@ -131,6 +173,7 @@ class GenerateMiddleEarthNames extends Command
         }
 
 
+//        dump($doc);
         $path = public_path('names_middle_earth_20000.xml');
         $doc->save($path);
 
