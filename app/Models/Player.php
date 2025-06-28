@@ -41,4 +41,20 @@ class Player extends Model
     {
         return $this->hasMany(Coach::class, 'former_player_id');
     }
+
+    public function batting_stats()
+    {
+        return $this->hasMany(PlayersCareerBattingStat::class, 'player_id');
+    }
+
+    public function pitching_stats()
+    {
+        return $this->hasMany(PlayersCareerPitchingStat::class, 'player_id');
+    }
+
+    public function fielding_stats()
+    {
+        return $this->hasMany(PlayersCareerFieldingStat::class, 'player_id');
+    }
+
 }

@@ -4,11 +4,11 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\PlayerController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -21,5 +21,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
+
+Route::get('team/{team}', [TeamController::class, 'show'])->name('teams.show');
+Route::get('player/{player}', [PlayerController::class, 'show'])->name('players.show');
 
 require __DIR__.'/auth.php';
