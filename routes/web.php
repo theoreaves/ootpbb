@@ -7,11 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
-    $standings = DB::table('TeamRecord')
-        ->where('LeagueID', 200)
-        ->orderByDesc('WinPCT')
-        ->get();
-    return view('welcome', ['standings' => $standings]);
+    return view('welcome');
 })->name('home');
 
 Route::view('dashboard', 'dashboard')
