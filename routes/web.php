@@ -4,9 +4,14 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
-    return view('welcome');
+    $standings = DB::table('TeamRecord')
+        ->where('LeagueID', 200)
+        ->orderByDesc('WinPCT')
+        ->get();
+    return view('welcome', ['standings' => $standings]);
 })->name('home');
 
 Route::view('dashboard', 'dashboard')
