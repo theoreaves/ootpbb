@@ -13,6 +13,9 @@
         @else
             <h3 class="text-xl text-gray-700 mb-6">Team: Unassigned</h3>
         @endif
+        <h2>
+            <img src="/storage/images/profile_pictures/player_{{ $player->player_id }}.png" alt="">
+        </h2>
 
         <h2 class="text-2xl font-semibold mt-8 mb-2">Batting Stats</h2>
         @if($batting)

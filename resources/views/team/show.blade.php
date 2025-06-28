@@ -3,6 +3,9 @@
 @section('content')
 <div class="max-w-xl mx-auto my-8 bg-gray-50 rounded-lg p-8 shadow">
     <h1 class="mb-2 text-3xl font-bold text-gray-800">{{ $team->name }}</h1>
+    <h1>
+        <img src="/storage/images/team_logos/{{ $team->logo_file_name }}" alt="">
+    </h1>
 
     <h2 class="mt-8 mb-4 text-xl font-semibold text-gray-600">Roster</h2>
     @php

@@ -22,6 +22,9 @@
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
 
+    <div>
+        <img src="{{ asset('storage/images/league_logos/middle_earth_baseball_league.png') }}" alt="Logo" class="w-32 h-32 mb-6">
+    </div>
         @if(isset($groupedStandings) && $groupedStandings->count())
             <div class="flex flex-col lg:flex-row gap-8 w-full justify-center items-start">
                 @foreach($groupedStandings as $subleagueKey => $standings)
