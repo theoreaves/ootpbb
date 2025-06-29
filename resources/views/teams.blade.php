@@ -27,55 +27,33 @@
 
 <x-home-header
     :league="$league"
-    />
+/>
 
-@if(isset($groupedStandings) && $groupedStandings->count())
-    <div class="flex flex-col lg:flex-row gap-8 w-full justify-center items-start">
-        <div class="text-2xl">Standings</div>
-        @foreach($groupedStandings as $subleagueKey => $standings)
-            <div class="flex-1 min-w-[350px] max-w-lg">
-                <h2 class="text-2xl font-semibold mb-4 mt-8 text-center">
-                    {{ $subleagues->where('sub_league_id', $subleagueKey)->first()->name ?? "Subleague" . $subleagueKey }}
-                </h2>
-                <table class="min-w-[350px] w-full border border-zinc-200 dark:border-zinc-700 rounded-lg overflow-hidden shadow mb-8 bg-white dark:bg-zinc-900">
-                    <thead>
-                    <tr class="bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
-                        <th class="py-2 px-3 font-medium text-xs">Pos</th>
-                        <th class="py-2 px-3 font-medium text-xs text-left">Team</th>
-                        <th class="py-2 px-3 font-medium text-xs">W</th>
-                        <th class="py-2 px-3 font-medium text-xs">L</th>
-                        <th class="py-2 px-3 font-medium text-xs">T</th>
-                        <th class="py-2 px-3 font-medium text-xs">PCT</th>
-                        <th class="py-2 px-3 font-medium text-xs">GB</th>
-                        <th class="py-2 px-3 font-medium text-xs">Streak</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($standings as $record)
-                        <tr class="even:bg-zinc-100 dark:even:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
-                            <td class="py-2 px-3 text-center">{{ $record->pos }}</td>
-                            <td class="py-2 px-3 text-left font-medium">
-                                @if(isset($record->team))
-                                    <a href="{{ route('teams.show', ['team' => $record->team->team_id]) }}" class="text-blue-600 hover:underline">
-                                        {{ $record->team->name ?? 'Unknown' }}
-                                    </a>
-                                @else
-                                    Unknown
-                                @endif
-                            </td>
-                            <td class="py-2 px-3 text-center">{{ $record->w }}</td>
-                            <td class="py-2 px-3 text-center">{{ $record->l }}</td>
-                            <td class="py-2 px-3 text-center">{{ $record->t }}</td>
-                            <td class="py-2 px-3 text-center">{{ number_format($record->pct, 3) }}</td>
-                            <td class="py-2 px-3 text-center">{{ $record->gb }}</td>
-                            <td class="py-2 px-3 text-center">{{ $record->streak }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endforeach
-    </div>
-@endif
+<div class="flex flex-col lg:flex-row gap-8 w-full justify-center items-start">
+    @foreach($teamsBySubleague as $subleagueId => $teams)
+        <div class="flex-1 min-w-[300px] max-w-md">
+            <h2 class="text-2xl font-semibold mb-4 text-center">
+                {{ $teams->first()->sub_league->name }}
+            </h2>
+
+            @foreach($teams as $team)
+                <a href="{{ route('teams.show', $team->team_id) }}">
+                <div class="flex items-center mt-4 cursor-pointer w-full hover:text-blue-500">
+                    <div class="w-36 h-36">
+                        <img src="/storage/images/team_logos/{{ $team->logo_file_name }}"
+                             alt="{{ $team->name }}"
+                             class="object-contain w-full h-full">
+                    </div>
+                    <div class="text-3xl ml-4">
+                        {{ $team->name }} {{ $team->nickname }}
+                    </div>
+                </div>
+                </a>
+            @endforeach
+        </div>
+    @endforeach
+</div>
+
+
 </body>
 </html>

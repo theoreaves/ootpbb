@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('standings', [HomeController::class, 'standings'])->name('home.standings');
+Route::get('teams', [HomeController::class, 'teams'])->name('home.teams');
 
 Route::get('team/{team}', [TeamController::class, 'show'])->name('teams.show');
 Route::get('team/{team}/roster', [TeamController::class, 'roster'])->name('teams.roster');

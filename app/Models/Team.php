@@ -72,4 +72,24 @@ class Team extends Model
 //        return  strtolower(str_replace(' ' , '_', $this->name . '_' . $this->nickname)) . '_small.png';
     }
 
+    public function subLeague_bad(): BelongsTo
+    {
+        return $this->belongsTo(SubLeague::class, 'sub_league_id', 'sub_league_id');
+    }
+
+//    public function subLeague()
+//    {
+//        return $this->belongsTo(SubLeague::class, 'sub_league_id', 'sub_league_id')
+//            ->whereColumn('sub_leagues.league_id', 'teams.league_id');
+//    }
+
+    public function getSubLeagueAttribute()
+    {
+        return SubLeague::where('sub_league_id', $this->sub_league_id)
+            ->where('league_id', $this->league_id)
+            ->first();
+    }
+
+
+
 }

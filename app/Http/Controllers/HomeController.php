@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Models\League;
 use App\Models\Message;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Models\TeamRecord;
 use App\Models\SubLeague;
@@ -72,6 +73,34 @@ class HomeController extends Controller
         return view('standings', [
             'groupedStandings' => $groupedStandings,
             'league' => $league,
+            'subleagues' => $subleagues
+        ]);
+    }
+
+    public function teams()
+    {
+        $league_id = config('app.league_id');
+        $league = League::where('league_id', $league_id)->first();
+
+
+        $teams = Team::where('league_id', $league_id)
+            ->where('allstar_team', '!=', 1)
+            ->orderBy('sub_league_id')->orderBy('name')->get();
+        $teamsBySubleague = $teams->groupBy('sub_league_id');
+
+
+        $subleagues = SubLeague::where('league_id', $league_id)->get();
+        $teams = $league->teams()
+            ->where('allstar_team', '!=', 1)
+            ->orderby('sub_league_id')
+            ->orderBy('name')
+            ->get();
+
+        // Group standings by composite key
+        return view('teams', [
+            'league' => $league,
+            'teams' => $teams,
+            'teamsBySubleague' => $teamsBySubleague,
             'subleagues' => $subleagues
         ]);
     }
