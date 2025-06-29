@@ -92,6 +92,7 @@
                         <th class="border px-2 py-1">RBI</th>
                         <th class="border px-2 py-1">BB</th>
                         <th class="border px-2 py-1">K</th>
+                        <th class="border px-2 py-1">AVG</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,6 +133,7 @@
                                     <td class="border px-2 py-1">{{ $batter->rbi }}</td>
                                     <td class="border px-2 py-1">{{ $batter->bb }}</td>
                                     <td class="border px-2 py-1">{{ $batter->k }}</td>
+                                    <td class="border px-2 py-1">{{ ltrim(number_format($batter->post_game_average, 3), 0) }}</td>
                                 </tr>
                             @endif
                         @endforeach
@@ -188,6 +190,7 @@
                         <th class="border px-2 py-1">RBI</th>
                         <th class="border px-2 py-1">BB</th>
                         <th class="border px-2 py-1">K</th>
+                        <th class="border px-2 py-1">AVG</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -228,6 +231,7 @@
                                     <td class="border px-2 py-1">{{ $batter->rbi }}</td>
                                     <td class="border px-2 py-1">{{ $batter->bb }}</td>
                                     <td class="border px-2 py-1">{{ $batter->k }}</td>
+                                    <td class="border px-2 py-1">{{ ltrim(number_format($batter->post_game_average, 3), 0) }}</td>
                                 </tr>
                             @endif
                         @endforeach
@@ -287,6 +291,7 @@
                         <th class="border px-2 py-1">ER</th>
                         <th class="border px-2 py-1">BB</th>
                         <th class="border px-2 py-1">K</th>
+                        <th class="border px-2 py-1">ERA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -337,6 +342,7 @@
                             <td class="border px-2 py-1">{{ $pitcher->er }}</td>
                             <td class="border px-2 py-1">{{ $pitcher->bb }}</td>
                             <td class="border px-2 py-1">{{ $pitcher->k }}</td>
+                            <td class="border px-2 py-1">{{ $pitcher->post_game_era }}</td>
                         </tr>
                         @endif
                     @endforeach
@@ -392,6 +398,7 @@
                         <th class="border px-2 py-1">ER</th>
                         <th class="border px-2 py-1">BB</th>
                         <th class="border px-2 py-1">K</th>
+                        <th class="border px-2 py-1">ERA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -442,6 +449,7 @@
                             <td class="border px-2 py-1">{{ $pitcher->er }}</td>
                             <td class="border px-2 py-1">{{ $pitcher->bb }}</td>
                             <td class="border px-2 py-1">{{ $pitcher->k }}</td>
+                            <td class="border px-2 py-1">{{ $pitcher->post_game_era }}</td>
                         </tr>
                         @endif
                     @endforeach

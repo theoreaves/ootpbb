@@ -197,4 +197,36 @@ class PlayersGamePitchingStat extends Model
     {
         return $this->belongsTo(Player::class, 'player_id');
     }
+
+    public function game()
+    {
+        return $this->belongsTo(Game::class, 'game_id');
+    }
+
+    public function getPostGameEraAttribute()
+    {
+        if (! $this->player_id || ! $this->year || ! $this->game || ! $this->game->date) {
+            return null;
+        }
+
+        $gameDate = \Carbon\Carbon::parse($this->game->date)->toDateString();
+
+        $prior = self::where('player_id', $this->player_id)
+            ->where('year', $this->year)
+            ->whereHas('game', function ($query) use ($gameDate) {
+                $query->where('game_type', 0)
+                    ->whereDate('date', '<', $gameDate);
+            })
+            ->selectRaw('SUM(ip) as ip, SUM(er) as er')
+            ->first();
+
+        $preIp = $prior->ip ?? 0;
+        $preEr = $prior->er ?? 0;
+
+        $totalIp = $preIp + $this->ip;
+        $totalEr = $preEr + $this->er;
+
+        return $totalIp > 0 ? round(($totalEr * 9) / $totalIp, 2) : null;
+    }
+
 }

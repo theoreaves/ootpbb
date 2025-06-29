@@ -159,4 +159,35 @@ class PlayersGameBatting extends Model
         ];
         return  $positions[$this->position] ?? null;
     }
+
+    public function getPostGameAverageAttribute()
+    {
+        if (! $this->player_id || ! $this->year || ! $this->game || ! $this->game->date) {
+            return null;
+        }
+
+        $gameDate = \Carbon\Carbon::parse($this->game->date)->toDateString();
+
+        $prior = self::where('player_id', $this->player_id)
+            ->where('year', $this->year)
+//            ->where('split_id', $this->split_id)
+            ->whereHas('game', function ($query) use ($gameDate) {
+                $query->where('game_type', 0);
+                $query->whereDate('date', '<', $gameDate);
+            })
+            ->selectRaw('SUM(ab) as ab, SUM(h) as h')
+            ->first();
+
+        $preAb = $prior->ab ?? 0;
+        $preH  = $prior->h ?? 0;
+
+        $totalAb = $preAb + $this->ab;
+        $totalH  = $preH + $this->h;
+
+        return $totalAb > 0 ? round($totalH / $totalAb, 3) : null;
+    }
+
+
+
+
 }
