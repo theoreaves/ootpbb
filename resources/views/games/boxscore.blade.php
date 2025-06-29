@@ -124,6 +124,44 @@
                     @endforeach
                 </tbody>
             </table>
+            {{-- HR/RBI/SB/CS summary for away team --}}
+            @php
+                $away_batters_stats = $game->batting->where('team_id', $game->awayTeam->team_id);
+                $away_hr = $away_batters_stats->filter(fn($b) => $b->hr > 0);
+                $away_rbi = $away_batters_stats->filter(fn($b) => $b->rbi > 0);
+                $away_sb = $away_batters_stats->filter(fn($b) => $b->sb > 0);
+                $away_cs = $away_batters_stats->filter(fn($b) => $b->cs > 0);
+            @endphp
+            <div class="mb-4 text-xs">
+                @if($away_hr->count())
+                    <div><span class="font-semibold">HR:</span>
+                        @foreach($away_hr as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->hr > 1 ? ' ('.$b->hr.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($away_rbi->count())
+                    <div><span class="font-semibold">RBI:</span>
+                        @foreach($away_rbi as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->rbi > 1 ? ' ('.$b->rbi.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($away_sb->count())
+                    <div><span class="font-semibold">SB:</span>
+                        @foreach($away_sb as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->sb > 1 ? ' ('.$b->sb.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($away_cs->count())
+                    <div><span class="font-semibold">CS:</span>
+                        @foreach($away_cs as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->cs > 1 ? ' ('.$b->cs.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+            </div>
 
             <h2 class="font-semibold mb-2">{{ $game->homeTeam->name }} Batting</h2>
             <table class="min-w-full border text-center text-xs">
@@ -182,6 +220,44 @@
                     @endforeach
                 </tbody>
             </table>
+            {{-- HR/RBI/SB/CS summary for home team --}}
+            @php
+                $home_batters_stats = $game->batting->where('team_id', $game->homeTeam->team_id);
+                $home_hr = $home_batters_stats->filter(fn($b) => $b->hr > 0);
+                $home_rbi = $home_batters_stats->filter(fn($b) => $b->rbi > 0);
+                $home_sb = $home_batters_stats->filter(fn($b) => $b->sb > 0);
+                $home_cs = $home_batters_stats->filter(fn($b) => $b->cs > 0);
+            @endphp
+            <div class="mb-4 text-xs">
+                @if($home_hr->count())
+                    <div><span class="font-semibold">HR:</span>
+                        @foreach($home_hr as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->hr > 1 ? ' ('.$b->hr.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($home_rbi->count())
+                    <div><span class="font-semibold">RBI:</span>
+                        @foreach($home_rbi as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->rbi > 1 ? ' ('.$b->rbi.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($home_sb->count())
+                    <div><span class="font-semibold">SB:</span>
+                        @foreach($home_sb as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->sb > 1 ? ' ('.$b->sb.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($home_cs->count())
+                    <div><span class="font-semibold">CS:</span>
+                        @foreach($home_cs as $b)
+                            {{ $b->player->name ?? 'Player #'.$b->player_id }}{{ $b->cs > 1 ? ' ('.$b->cs.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+            </div>
         </div>
 
         {{-- Pitching Stats --}}
@@ -252,6 +328,44 @@
                     @endforeach
                 </tbody>
             </table>
+            {{-- Pitching summary for away team --}}
+            @php
+                $away_pitchers_stats = $game->pitching->where('team_id', $game->awayTeam->team_id);
+                $away_pi = $away_pitchers_stats->filter(fn($p) => $p->pi > 0);
+                $away_bf = $away_pitchers_stats->filter(fn($p) => $p->bf > 0);
+                $away_wp = $away_pitchers_stats->filter(fn($p) => $p->wp > 0);
+                $away_hp = $away_pitchers_stats->filter(fn($p) => $p->hp > 0);
+            @endphp
+            <div class="mb-4 text-xs">
+                @if($away_pi->count())
+                    <div><span class="font-semibold">Pitches Thrown (PI):</span>
+                        @foreach($away_pi as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->pi > 1 ? ' ('.$p->pi.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($away_bf->count())
+                    <div><span class="font-semibold">Batters Faced (BF):</span>
+                        @foreach($away_bf as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->bf > 1 ? ' ('.$p->bf.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($away_wp->count())
+                    <div><span class="font-semibold">Wild Pitches (WP):</span>
+                        @foreach($away_wp as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->wp > 1 ? ' ('.$p->wp.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($away_hp->count())
+                    <div><span class="font-semibold">Hit Batters (HP):</span>
+                        @foreach($away_hp as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->hp > 1 ? ' ('.$p->hp.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+            </div>
 
             <h2 class="font-semibold mb-2">{{ $game->homeTeam->name }} Pitching</h2>
             <table class="min-w-full border text-center text-xs">
@@ -319,6 +433,44 @@
                     @endforeach
                 </tbody>
             </table>
+            {{-- Pitching summary for home team --}}
+            @php
+                $home_pitchers_stats = $game->pitching->where('team_id', $game->homeTeam->team_id);
+                $home_pi = $home_pitchers_stats->filter(fn($p) => $p->pi > 0);
+                $home_bf = $home_pitchers_stats->filter(fn($p) => $p->bf > 0);
+                $home_wp = $home_pitchers_stats->filter(fn($p) => $p->wp > 0);
+                $home_hp = $home_pitchers_stats->filter(fn($p) => $p->hp > 0);
+            @endphp
+            <div class="mb-4 text-xs">
+                @if($home_pi->count())
+                    <div><span class="font-semibold">Pitches Thrown (PI):</span>
+                        @foreach($home_pi as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->pi > 1 ? ' ('.$p->pi.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($home_bf->count())
+                    <div><span class="font-semibold">Batters Faced (BF):</span>
+                        @foreach($home_bf as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->bf > 1 ? ' ('.$p->bf.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($home_wp->count())
+                    <div><span class="font-semibold">Wild Pitches (WP):</span>
+                        @foreach($home_wp as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->wp > 1 ? ' ('.$p->wp.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+                @if($home_hp->count())
+                    <div><span class="font-semibold">Hit Batters (HP):</span>
+                        @foreach($home_hp as $p)
+                            {{ $p->player->name ?? 'Player #'.$p->player_id }}{{ $p->hp > 1 ? ' ('.$p->hp.')' : '' }}@if(!$loop->last), @endif
+                        @endforeach
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 @endsection
