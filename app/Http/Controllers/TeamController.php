@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PlayersCareerBattingStat;
+use App\Models\PlayersCareerFieldingStat;
+use App\Models\PlayersCareerPitchingStat;
 use App\Models\Team;
 use App\Models\TeamRoster;
 use App\Models\Player;
 use App\Models\Game;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -59,13 +63,71 @@ class TeamController extends Controller
         ]);
     }
 
-    public function stats($teamId)
+    public function stats(Request $request, $teamId)
     {
         $team = Team::findOrFail($teamId);
+        $split = $request->query('split', 1);
+        $year = $request->query('year', 2064); // Default year
+
+        // Get all distinct years from batting stats table (assumes all tables have similar years)
+        $availableYears = DB::table('players_career_batting_stats')
+            ->select('year')
+            ->distinct()
+            ->orderByDesc('year')
+            ->pluck('year');
+
+        $battingStats = PlayersCareerBattingStat::with('player')
+            ->where('team_id', $teamId)
+            ->where('year', $year)
+            ->where('split_id', $split)
+            ->get();
+
+        $pitchingStats = PlayersCareerPitchingStat::with('player')
+            ->where('team_id', $teamId)
+            ->where('year', $year)
+            ->where('split_id', $split)
+            ->get();
+
+        $fieldingStats = PlayersCareerFieldingStat::with('player')
+            ->where('team_id', $teamId)
+            ->where('year', $year)
+            ->where('split_id', $split)
+            ->get();
+
+        return view('team.stats', compact(
+            'team',
+            'battingStats',
+            'pitchingStats',
+            'fieldingStats',
+            'split',
+            'year',
+            'availableYears'
+        ));
+    }
+
+    public function stats1($teamId)
+    {
+        $team = Team::findOrFail($teamId);
+        $battingStats = PlayersCareerBattingStat::where('team_id', $teamId)
+            ->where('year', 2064)
+            ->where('split_id', 1) // Assuming split_id 1 is for full season stats
+            ->get();
+        $pitchingStats = PlayersCareerPitchingStat::where('team_id', $teamId)
+            ->where('year', 2064)
+            ->where('split_id', 1) // Assuming split_id 1 is for full season stats
+            ->get();
+        $fieldingStats = PlayersCareerFieldingStat::where('team_id', $teamId)
+            ->where('year', 2064)
+//            ->where('split_id', 1) // Assuming split_id 1 is for full season stats
+            ->get();
+
 
         // Get all games where this team is home or away, ordered by date
         return view('team.stats', [
             'team' => $team,
+            'battingStats' => $battingStats,
+            'pitchingStats' => $pitchingStats,
+            'fieldingStats' => $fieldingStats,
         ]);
     }
 

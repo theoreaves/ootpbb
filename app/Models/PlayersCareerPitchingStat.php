@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PlayersCareerPitchingStat
- * 
+ *
  * @property int|null $player_id
  * @property int|null $year
  * @property int|null $team_id
@@ -199,4 +199,24 @@ class PlayersCareerPitchingStat extends Model
 		'war',
 		'ra9war'
 	];
+
+    public function player()
+    {
+        return $this->belongsTo(Player::class, 'player_id');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
+
+    public function league()
+    {
+        return $this->belongsTo(League::class, 'league_id');
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class, 'level_id');
+    }
 }
