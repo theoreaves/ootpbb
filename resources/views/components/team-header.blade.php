@@ -12,8 +12,8 @@
             <div>
                 <a href="{{ route('home') }}">League Home</a> |
                 <a href="{{ route('teams.show', ['team' => $team->team_id]) }}">{{ $team->nickname }} Home</a> |
-                Roster |
-                Stats |
+                <a href="{{ route('teams.roster', ['team' => $team->team_id]) }}">Roster</a> |
+                <a href="{{ route('teams.stats', ['team' => $team->team_id]) }}">Stats</a> |
                 <a href="{{ route('teams.schedule', $team->team_id) }}">Schedule</a>
             </div>
         </div>

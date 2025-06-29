@@ -25,7 +25,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('standings', [HomeController::class, 'standings'])->name('home.standings');
 
 Route::get('team/{team}', [TeamController::class, 'show'])->name('teams.show');
+Route::get('team/{team}/roster', [TeamController::class, 'roster'])->name('teams.roster');
 Route::get('team/{team}/schedule', [TeamController::class, 'schedule'])->name('teams.schedule');
+Route::get('team/{team}/stats', [TeamController::class, 'stats'])->name('teams.stats');
 Route::get('player/{player}', [PlayerController::class, 'show'])->name('players.show');
 
 require __DIR__.'/auth.php';
