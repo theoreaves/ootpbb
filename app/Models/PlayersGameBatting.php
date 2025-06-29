@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PlayersGameBatting
- * 
+ *
  * @property int|null $player_id
  * @property int|null $year
  * @property int|null $team_id
@@ -121,4 +121,42 @@ class PlayersGameBatting extends Model
 		'stint',
 		'ubr'
 	];
+
+    public function player()
+    {
+        return $this->belongsTo(Player::class, 'player_id');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
+    }
+
+    public function game()
+    {
+        return $this->belongsTo(Game::class, 'game_id');
+    }
+
+    public function league()
+    {
+        return $this->belongsTo(League::class, 'league_id');
+    }
+
+    public function getPositionNameAttribute()
+    {
+        $positions = [
+            0 => 'PH',
+            1 => 'P',
+            2 => 'C',
+            3 => '1B',
+            4 => '2B',
+            5 => '3B',
+            6 => 'SS',
+            7 => 'LF',
+            8 => 'CF',
+            9 => 'RF',
+            10 => 'DH',
+        ];
+        return  $positions[$this->position] ?? null;
+    }
 }

@@ -57,4 +57,9 @@ class Player extends Model
         return $this->hasMany(PlayersCareerFieldingStat::class, 'player_id');
     }
 
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
 }

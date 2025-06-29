@@ -50,4 +50,6 @@ class Game extends Model
     {
         return $this->hasMany(PlayersAtBatBattingStat::class, 'game_id', 'game_id');
     }
+
+
 }
