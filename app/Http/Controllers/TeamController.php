@@ -6,6 +6,8 @@ use App\Models\Team;
 use App\Models\TeamRoster;
 use App\Models\Player;
 use App\Models\Game;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
@@ -66,19 +68,36 @@ class TeamController extends Controller
             'team' => $team,
         ]);
     }
-    public function schedule($teamId)
+
+    public function schedule(Request $request, $teamId)
     {
         $team = Team::findOrFail($teamId);
 
-        // Get all games where this team is home or away, ordered by date
-        $games = Game::where('home_team', $teamId)
-            ->orWhere('away_team', $teamId)
+        $monthParam = $request->query('month');
+
+        // Get all games for the team
+        $games = Game::where(function ($query) use ($teamId) {
+            $query->where('home_team', $teamId)
+                ->orWhere('away_team', $teamId);
+        })
             ->orderBy('date')
             ->get();
 
-        return view('team.schedule', [
-            'team' => $team,
-            'games' => $games,
-        ]);
+        // Determine month to show
+        if ($monthParam) {
+            $month = Carbon::parse($monthParam)->startOfMonth();
+        } elseif ($games->count()) {
+            $month = Carbon::parse($games->first()->date)->startOfMonth();
+        } else {
+            $month = now()->startOfMonth();
+        }
+
+        $gamesInMonth = $games->filter(function ($game) use ($month) {
+            $date = Carbon::parse($game->date);
+            return $date->month === $month->month && $date->year === $month->year;
+        });
+
+        $gamesByDate = $gamesInMonth->groupBy(fn($game) => Carbon::parse($game->date)->toDateString());
+        return view('team.schedule-calendar', compact('team', 'gamesByDate', 'month'));
     }
 }
