@@ -116,13 +116,15 @@
                             @endphp
                             @if ($batter)
                                 <tr>
-                                    <td class="border px-2 py-1 text-left">
+                                    <td class="border px-2 py-1 text-left hover:text-blue-500">
                                         @if ($idx == 0)
                                             <span class="font-semibold">({{ $spotPlayer->spot }})</span>
                                         @else
                                             <span class="font-semibold">(-)</span>
                                         @endif
+                                            <a href="{{ route('players.show', $batter->player_id) }}">
                                         {{ $batter->position_name }} - {{ $batter->player->name ?? 'Player #' . $batter->player_id }}
+                                            </a>
                                         @if ($idx > 0)
                                             <span class="text-xs text-gray-500">(sub)</span>
                                         @endif
@@ -214,13 +216,15 @@
                             @endphp
                             @if ($batter)
                                 <tr>
-                                    <td class="border px-2 py-1 text-left">
+                                    <td class="border px-2 py-1 text-left hover:text-blue-500">
                                         @if ($idx == 0)
                                             <span class="font-semibold">({{ $spotPlayer->spot }})</span>
                                         @else
                                             <span class="font-semibold">(-)</span>
                                         @endif
+                                            <a href="{{ route('players.show', $batter->player_id) }}">
                                         {{ $batter->position_name }} - {{ $batter->player->name ?? 'Player #' . $batter->player_id }}
+                                            </a>
                                         @if ($idx > 0)
                                             <span class="text-xs text-gray-500">(sub)</span>
                                         @endif
@@ -313,8 +317,10 @@
                         @php $pitcher = $away_pitchers[$pitcher_id] ?? null; @endphp
                         @if ($pitcher)
                         <tr>
-                            <td class="border px-2 py-1 text-left">
+                            <td class="border px-2 py-1 text-left hover:text-blue-500">
+                                <a href="{{ route('players.show', $pitcher->player_id) }}">
                                 {{ $pitcher->player->name ?? 'Player #' . $pitcher->player_id }}
+                                </a>
                                 @if ($pitcher->w == 1)
                                     <span class="text-xs text-green-700 font-semibold">(W)</span>
                                 @endif
@@ -420,8 +426,10 @@
                         @php $pitcher = $home_pitchers[$pitcher_id] ?? null; @endphp
                         @if ($pitcher)
                         <tr>
-                            <td class="border px-2 py-1 text-left">
+                            <td class="border px-2 py-1 text-left hover:text-blue-500">
+                                <a href="{{ route('players.show', $pitcher->player_id) }}">
                                 {{ $pitcher->player->name ?? 'Player #' . $pitcher->player_id }}
+                                </a>
                                 @if ($pitcher->w == 1)
                                     <span class="text-xs text-green-700 font-semibold">(W)</span>
                                 @endif
