@@ -61,4 +61,15 @@ class Team extends Model
     {
         return $this->hasMany(Game::class, 'team_id'); // If `team_id` appears in games table
     }
+
+    public function getSmallLogoAttribute()
+    {
+        $small_image = strtolower(str_replace(' ', '_', $this->name . '_' . $this->nickname)) . '_small.png';
+        if (file_exists(storage_path('app/public/images/team_logos/' . $small_image))) {
+            return $small_image;
+        }
+        return  $this->logo_file_name; // Fallback to the original logo if small version doesn't exist
+//        return  strtolower(str_replace(' ' , '_', $this->name . '_' . $this->nickname)) . '_small.png';
+    }
+
 }

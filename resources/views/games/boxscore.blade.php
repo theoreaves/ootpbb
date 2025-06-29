@@ -2,9 +2,23 @@
 
 @section('content')
     <div class="max-w-4xl mx-auto px-4 py-6">
-        <h1 class="text-2xl font-bold mb-4">
-            Box Score: {{ $game->awayTeam->name }} @ {{ $game->homeTeam->name }}
-        </h1>
+        {{-- Header with logos, team names, and scores --}}
+        <div class="flex items-center justify-between mb-6 bg-[{{ $league->background_color_id }}] text-[{{ $league->text_color_id }}] ">
+            <div class="flex items-center space-x-2">
+                    <img src="/storage/images/team_logos/{{ $game->awayTeam->small_logo }}" alt="{{ $game->awayTeam->name }}" class="h-10 w-10 object-contain">
+                <span class="font-bold text-lg">{{ $game->awayTeam->name }}</span>
+                <span class="font-bold text-2xl">{{ $game->runs0 ?? 0 }}</span>
+            </div>
+            <h1 class="text-2xl font-bold mb-4">
+                <a href="{{ route('home') }}">{{ $league->name }}</a>
+            </h1>
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-2xl">{{ $game->runs1 ?? 0 }}</span>
+                <span class="font-bold text-lg">{{ $game->homeTeam->name }}</span>
+                <img src="/storage/images/team_logos/{{ $game->homeTeam->small_logo }}" alt="{{ $game->homeTeam->name }}" class="h-10 w-10 object-contain">
+            </div>
+        </div>
+
         <p class="mb-2">Date: {{ \Carbon\Carbon::parse($game->date)->format('F j, Y') }}</p>
 
         {{-- Line Score --}}

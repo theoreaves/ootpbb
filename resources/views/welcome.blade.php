@@ -91,13 +91,15 @@
     @foreach($games as $game)
         <div class="w-full md:w-1/3 lg:w-1/4 xl:w-1/6 bg-gray-100 rounded shadow p-4">
             <div class="flex justify-between items-center border-b pb-1 mb-1">
-            <div class="mb-2 text-sm text-gray-600">
+            <div class="mb-2 text-sm text-gray-600 hover:text-blue-500">
                 @php
                     $time = str_pad($game->time, 4, '0', STR_PAD_LEFT); // ensures '905' becomes '0905'
                     $formattedTime = \Carbon\Carbon::createFromFormat('Hi', $time)->format('g:i A');
                 @endphp
+                <a href="{{ route('games.boxscore', ['game' => $game->game_id]) }}">
                 {{ $game->date->format('m/d/Y') ?? 'Game Date' }}
                 {{ $formattedTime }}
+                </a>
             </div>
             <div class="text-sm text-gray-600 flex ">
                 <span class="w-5">R</span>

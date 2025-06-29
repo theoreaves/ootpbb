@@ -6,23 +6,6 @@
     <x-team-header :team="$team" />
 @endif
 
-    <div class="relative mb-4">
-        <!-- Floating Image -->
-        <div class="absolute left-0 top-0 z-10">
-            <img src="/storage/images/team_logos/{{ $team->logo_file_name }}" alt="">
-        </div>
-
-        <!-- Main Content Box -->
-        <div class="bg-[{{ $team->background_color_id }}] text-[{{ $team->text_color_id }}] flex flex-1 items-center justify-between pl-36 ">
-            <div></div>
-            <div>
-                <div class="text-4xl font-bold mb-2 text-center">{{ $team->name }} {{ $team->nickname }}</div>
-                <div><a href="{{ route('home') }}">League Home</a> | Roster | Stats | Schedule</div>
-            </div>
-            <div></div>
-        </div>
-    </div>
-
 
 
 

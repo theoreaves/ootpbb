@@ -81,7 +81,8 @@
 
                             <a href="{{ route('games.boxscore', ['game' => $game->game_id]) }}" class="block hover:bg-blue-100 rounded transition">
                                 <div class="flex items-center gap-2 px-1 py-0.5 rounded {{ $bg }}">
-                                    <img src="/storage/images/team_logos/{{ $opponentTeam->logo_file_name }}"
+{{--                                    <img src="/storage/images/team_logos/{{ $opponentTeam->logo_file_name }}"--}}
+                                        <img src="/storage/images/team_logos/{{ $opponentTeam->small_logo }}"
                                          alt="{{ $opponent }}"
                                          class="w-5 h-5 object-contain" />
 
