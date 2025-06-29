@@ -33,6 +33,6 @@ class Game extends Model
 
     public function scores(): HasMany
     {
-        return $this->hasMany(GameScore::class, 'game_id');
+        return $this->hasMany(GamesScore::class, 'game_id', 'game_id');
     }
 }

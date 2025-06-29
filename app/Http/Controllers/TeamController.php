@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Models\TeamRoster;
 use App\Models\Player;
+use App\Models\Game;
 
 class TeamController extends Controller
 {
@@ -29,6 +30,22 @@ class TeamController extends Controller
         return view('team.show', [
             'team' => $team,
             'grouped' => $grouped,
+        ]);
+    }
+
+    public function schedule($teamId)
+    {
+        $team = Team::findOrFail($teamId);
+
+        // Get all games where this team is home or away, ordered by date
+        $games = Game::where('home_team', $teamId)
+            ->orWhere('away_team', $teamId)
+            ->orderBy('date')
+            ->get();
+
+        return view('team.schedule', [
+            'team' => $team,
+            'games' => $games,
         ]);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class GameScore extends Model
+class GamesScore extends Model
 {
     protected $table = 'games_score';
     public $incrementing = false;

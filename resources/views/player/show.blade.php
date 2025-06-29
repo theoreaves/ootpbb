@@ -2,6 +2,9 @@
 
 @section('content')
 
+@if($team)
+    <x-team-header :team="$team" />
+@endif
 
     <div class="relative mb-4">
         <!-- Floating Image -->
