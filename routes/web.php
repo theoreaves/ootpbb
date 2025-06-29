@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -29,5 +30,8 @@ Route::get('team/{team}/roster', [TeamController::class, 'roster'])->name('teams
 Route::get('team/{team}/schedule', [TeamController::class, 'schedule'])->name('teams.schedule');
 Route::get('team/{team}/stats', [TeamController::class, 'stats'])->name('teams.stats');
 Route::get('player/{player}', [PlayerController::class, 'show'])->name('players.show');
+
+Route::get('/games/{game}/boxscore', [GameController::class, 'boxscore'])->name('games.boxscore');
+
 
 require __DIR__.'/auth.php';

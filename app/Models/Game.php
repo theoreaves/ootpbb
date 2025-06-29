@@ -35,4 +35,19 @@ class Game extends Model
     {
         return $this->hasMany(GamesScore::class, 'game_id', 'game_id');
     }
+
+    public function batting(): HasMany
+    {
+        return $this->hasMany(PlayersGameBatting::class, 'game_id', 'game_id');
+    }
+
+    public function pitching()
+    {
+        return $this->hasMany(PlayersGamePitchingStat::class, 'game_id', 'game_id');
+    }
+
+    public function scorecard()
+    {
+        return $this->hasMany(PlayersAtBatBattingStat::class, 'game_id', 'game_id');
+    }
 }

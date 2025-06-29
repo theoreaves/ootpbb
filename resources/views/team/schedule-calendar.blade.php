@@ -79,23 +79,26 @@
                                     : '';
                             @endphp
 
-                            <div class="flex items-center gap-2 px-1 py-0.5 rounded {{ $bg }}">
-                                <img src="/storage/images/team_logos/{{ $opponentTeam->logo_file_name }}"
-                                     alt="{{ $opponent }}"
-                                     class="w-5 h-5 object-contain" />
+                            <a href="{{ route('games.boxscore', ['game' => $game->game_id]) }}" class="block hover:bg-blue-100 rounded transition">
+                                <div class="flex items-center gap-2 px-1 py-0.5 rounded {{ $bg }}">
+                                    <img src="/storage/images/team_logos/{{ $opponentTeam->logo_file_name }}"
+                                         alt="{{ $opponent }}"
+                                         class="w-5 h-5 object-contain" />
 
-                                <div>
-                                    <div class="leading-tight">{{ $label }} {{ $opponent }}</div>
-                                    <div class="text-xs font-medium">
-                                        {{ $score }}
-                                        @if($result)
-                                            <span class="ml-1 {{ $result === 'Win' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' }}">
+                                    <div>
+                                        <div class="leading-tight">{{ $label }} {{ $opponent }}</div>
+                                        <div class="text-xs font-medium">
+                                            {{ $score }}
+                                            @if($result)
+                                                <span class="ml-1 {{ $result === 'Win' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' }}">
                         ({{ $result }})
                     </span>
-                                        @endif
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
+
                         @endforeach
 
 
