@@ -12,6 +12,10 @@ class Game extends Model
     public $incrementing = false;
     protected $guarded = [];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function league(): BelongsTo
     {
         return $this->belongsTo(League::class, 'league_id');
@@ -19,12 +23,12 @@ class Game extends Model
 
     public function homeTeam(): BelongsTo
     {
-        return $this->belongsTo(Team::class, 'home_team_id');
+        return $this->belongsTo(Team::class, 'home_team', 'team_id');
     }
 
     public function awayTeam(): BelongsTo
     {
-        return $this->belongsTo(Team::class, 'away_team_id');
+        return $this->belongsTo(Team::class, 'away_team', 'team_id');
     }
 
     public function scores(): HasMany
