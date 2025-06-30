@@ -14,12 +14,19 @@
             </h1>
             <div class="flex items-center space-x-2">
                 <span class="font-bold text-2xl">{{ $game->runs1 ?? 0 }}</span>
-                <span class="font-bold text-lg hover:text-blue-500"><a href="{{ route('teams.show', $game->awayTeam->team_id) }}">{{ $game->homeTeam->name }}</a></span>
+                <span class="font-bold text-lg hover:text-blue-500"><a href="{{ route('teams.show', $game->homeTeam->team_id) }}">{{ $game->homeTeam->name }}</a></span>
                 <img src="/storage/images/team_logos/{{ $game->homeTeam->small_logo }}" alt="{{ $game->homeTeam->name }}" class="h-10 w-10 object-contain">
             </div>
         </div>
 
-        <p class="mb-2">Date: {{ \Carbon\Carbon::parse($game->date)->format('F j, Y') }}</p>
+        <p class="mb-2 font-bold">
+            @php
+            $rawTime = str_pad($game->time, 4, '0', STR_PAD_LEFT);
+            $dt = \DateTime::createFromFormat('Hi', $rawTime);
+            $showTime = $dt ? $dt->format('g:ia') : $game->time;
+            @endphp
+            {{ \Carbon\Carbon::parse($game->date)->format('F j, Y') }}, {{ $showTime }}
+        </p>
 
         {{-- Line Score --}}
         <div class="overflow-x-auto mb-6">

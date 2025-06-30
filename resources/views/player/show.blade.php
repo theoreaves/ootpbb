@@ -194,7 +194,7 @@
                     $slg = $stat->ab > 0 ? number_format($total_bases / $stat->ab, 3) : '.000';
                     $ops = number_format((float)$obp + (float)$slg, 3);
                 @endphp
-                <tr class="border-t {{ $stat->league_id != config('app.league_id') ? 'italic text-gray-600' : '' }}">
+                <tr class="border-t {{ $stat->league_id != config('app.league_id') ? 'italic text-gray-400' : '' }}">
                     <td class="px-2 py-1">{{ $stat->year }}</td>
                     <td class="px-2 py-1">{{ $stat->league->abbr ?? '' }}</td>
                     <td class="px-2 py-1">{{ $stat->team->name ?? 'Unknown' }}</td>
@@ -309,7 +309,7 @@
                     $era = $ip > 0 ? number_format(($stat->er * 9) / $ip, 2) : '0.00';
                     $whip = $ip > 0 ? number_format(($stat->bb + $stat->h) / $ip, 2) : '0.00';
                 @endphp
-                <tr class="border-t {{ $stat->league_id != config('app.league_id') ? 'italic text-gray-600' : '' }}">
+                <tr class="border-t {{ $stat->league_id != config('app.league_id') ? 'italic text-gray-400' : '' }}">
                     <td class="px-2 py-1">{{ $stat->year }}</td>
                     <td class="px-2 py-1">{{ $stat->league->abbr ?? '' }}</td>
                     <td class="px-2 py-1">{{ $stat->team->name ?? 'Unknown' }}</td>
@@ -392,7 +392,7 @@
                         ? number_format(($stat->po + $stat->a) / ($stat->po + $stat->a + $stat->e), 3)
                         : '1.000';
                 @endphp
-                <tr class="border-t {{ $stat->league_id != config('app.league_id') ? 'italic text-gray-600' : '' }}">
+                <tr class="border-t {{ $stat->league_id != config('app.league_id') ? 'italic text-gray-400' : '' }}">
                     <td class="px-2 py-1">{{ $stat->year }}</td>
                     <td class="px-2 py-1">{{ $stat->league->abbr ?? '' }}</td>
                     <td class="px-2 py-1">{{ $stat->team->name ?? 'Unknown' }}</td>

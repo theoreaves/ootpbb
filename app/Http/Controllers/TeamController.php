@@ -231,7 +231,15 @@ class TeamController extends Controller
         if ($monthParam) {
             $month = Carbon::parse($monthParam)->startOfMonth();
         } elseif ($games->count()) {
-            $month = Carbon::parse($games->first()->date)->startOfMonth();
+            // Find the first game not played
+            $firstNotPlayed = $games->first(function ($game) {
+                return $game->played != 1;
+            });
+            if ($firstNotPlayed) {
+                $month = Carbon::parse($firstNotPlayed->date)->startOfMonth();
+            } else {
+                $month = Carbon::parse($games->first()->date)->startOfMonth();
+            }
         } else {
             $month = now()->startOfMonth();
         }

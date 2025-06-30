@@ -47,12 +47,22 @@
                     $isCurrentMonth = $date->month === $month->month;
                     $isToday = $date->isToday();
                     $gamesToday = $gamesByDate[$date->toDateString()] ?? collect();
+                    // Find first unplayed game (runs0 == 0 && runs1 == 0)
+                    $firstUnplayed = $gamesToday->first(fn($g) => $g->runs0 == 0 && $g->runs1 == 0);
+                    $anyPlayed = $gamesToday->contains(fn($g) => $g->played == 1);
+
+                    $boxBg = '';
+                    if ($firstUnplayed) {
+                        $isHome = $firstUnplayed->home_team == $team->team_id;
+                        $boxBg = $isHome ? 'bg-[' . $team->background_color_id .'] text-[' . $team->text_color_id .'] border-[' .  $team->text_color_id . '] ' : 'bg-gray-100';
+                    } elseif ($anyPlayed) {
+                        $boxBg = 'bg-white';
+                    } else {
+                        $boxBg = $isCurrentMonth ? 'bg-white' : 'bg-gray-400 text-gray-300';
+                    }
                 @endphp
 
-                <div class="border p-1 h-32 overflow-auto relative
-                {{ $isCurrentMonth ? 'bg-white' : 'bg-gray-100 text-gray-400' }}
-                {{ $isToday ? 'border-blue-500 bg-blue-50' : '' }}">
-
+                <div class="border p-1 h-32 overflow-auto relative {{ $boxBg }} {{ $isToday ? 'border-blue-500 bg-blue-50' : '' }} hover:bg-blue-100">
                     <div class="absolute top-1 right-2 text-xs font-bold">{{ $date->day }}</div>
 
                     <div class="mt-4 space-y-1">
@@ -65,7 +75,14 @@
 
                                 $isUnplayed = ($game->runs0 == 0 && $game->runs1 == 0);
 
-                                $score = $isUnplayed ? 'TBD' : "{$game->runs0}-{$game->runs1}";
+                                // Format time as 7:49PM if unplayed
+                                if ($isUnplayed) {
+                                    $rawTime = str_pad($game->time, 4, '0', STR_PAD_LEFT);
+                                    $dt = \DateTime::createFromFormat('Hi', $rawTime);
+                                    $score = $dt ? $dt->format('g:ia') : $game->time;
+                                } else {
+                                    $score = "{$game->runs0}-{$game->runs1}";
+                                }
 
                                 $result = null;
                                 if (!$isUnplayed) {
@@ -74,18 +91,16 @@
                                     $result = $teamScore > $opponentScore ? 'Win' : 'Loss';
                                 }
 
-                                $bg = $isUnplayed
-                                    ? ($isHome ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800')
-                                    : '';
+                                $bg = '';
+                                if ($isUnplayed) {
+                                    $bg = $isHome ? 'bg-[' . $team->background_color_id .'] text-[' . $team->text_color_id .'] ' : 'bg-gray-100';
+                                } elseif ($game->played == 1) {
+                                    $bg = 'bg-white';
+                                }
                             @endphp
+                            <a href="{{ route('games.boxscore', ['game' => $game->game_id]) }}">
 
-                            <a href="{{ route('games.boxscore', ['game' => $game->game_id]) }}" class="block hover:bg-blue-100 rounded transition">
-                                <div class="flex items-center gap-2 px-1 py-0.5 rounded {{ $bg }}">
-{{--                                    <img src="/storage/images/team_logos/{{ $opponentTeam->logo_file_name }}"--}}
-                                        <img src="/storage/images/team_logos/{{ $opponentTeam->small_logo }}"
-                                         alt="{{ $opponent }}"
-                                         class="w-5 h-5 object-contain" />
-
+                                <div class="flex items-center gap-2 px-1 py-0.5 rounded ">
                                     <div>
                                         <div class="leading-tight">{{ $label }} {{ $opponent }}</div>
                                         <div class="text-xs font-medium">
@@ -97,7 +112,11 @@
                                             @endif
                                         </div>
                                     </div>
+
                                 </div>
+                                <img src="/storage/images/team_logos/{{ $opponentTeam->small_logo }}"
+                                     alt="{{ $opponent }}"
+                                     class="w-10 object-contain" />
                             </a>
 
                         @endforeach
@@ -114,19 +133,19 @@
             <h2 class="text-lg font-bold mb-2">Key</h2>
             <div class="flex gap-4 flex-wrap">
                 <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 bg-green-100 border border-green-400 rounded-sm"></div>
+                    <div class="w-4 h-4 bg-[{{ $team->background_color_id }}] border border-[{{ $team->text_color_id }}] rounded-sm"></div>
                     <span>Home Game</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 bg-yellow-100 border border-yellow-400 rounded-sm"></div>
+                    <div class="w-4 h-4 bg-gray-100 border border-gray-400 rounded-sm"></div>
                     <span>Away Game</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 bg-blue-50 border border-blue-500 rounded-sm"></div>
-                    <span>Today</span>
+                    <div class="w-4 h-4 bg-white border border-gray-900 rounded-sm"></div>
+                    <span>Played</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 bg-gray-100 border border-gray-300 rounded-sm"></div>
+                    <div class="w-4 h-4 bg-gray-400 border border-gray-900 rounded-sm"></div>
                     <span>Outside Selected Month</span>
                 </div>
             </div>
