@@ -47,7 +47,7 @@
                 <a href="#career-pitching" class="hover:text-blue-500 mr-4 font-bold">Career Pitching</a>
                 <a href="#career-fielding" class="hover:text-blue-500 font-bold">Career Fielding</a>
             </div>
-            <div>
+            <div class="bg-cover bg-center w-32 h-32" style="background-image: url('/storage/images/team_logos/{{ $team->logo_file_name }}');">
             <img src="/storage/images/person_pictures/player_{{ $player->player_id }}.png" alt="">
          </div>
         </div>

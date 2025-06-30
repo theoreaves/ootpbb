@@ -65,7 +65,7 @@ class HomeController extends Controller
             ->where('year', $currentYear)
             ->get();
         $pitchingLeadersByEra = $pitchingLeaders
-            ->filter(fn($s) => $s->g > 0 && ($s->ip / $s->g) >= 1)
+            ->filter(fn($s) => $teamGamesPlayed > 0 && ($s->ip / $teamGamesPlayed) >= 1)
             ->sortBy(fn($s) => $s->ip > 0 ? ($s->er * 9) / $s->ip : INF)
             ->take(3);
         $pitchingLeadersByWins = $pitchingLeaders->sortByDesc('w')->take(3);
