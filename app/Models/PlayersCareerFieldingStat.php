@@ -154,11 +154,29 @@ class PlayersCareerFieldingStat extends Model
 
     public function league()
     {
-        return $this->belongsTo(League::class, 'league_id');
+        return $this->belongsTo(League::class, 'league_id', 'league_id');
     }
 
     public function level()
     {
         return $this->belongsTo(Level::class, 'level_id');
+    }
+
+    public function getPositionNameAttribute()
+    {
+        $positions = [
+            0 => 'Pinch Hitter',
+            1 => 'Pitcher',
+            2 => 'Catcher',
+            3 => 'First Base',
+            4 => 'Second Base',
+            5 => 'Third Base',
+            6 => 'Shortstop',
+            7 => 'Left Field',
+            8 => 'Center Field',
+            9 => 'Right Field',
+            10 => 'Designated Hitter',
+        ];
+        return  $positions[$this->position] ?? null;
     }
 }

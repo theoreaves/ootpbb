@@ -137,7 +137,7 @@ class PlayersCareerBattingStat extends Model
 
     public function league()
     {
-        return $this->belongsTo(League::class, 'league_id');
+        return $this->belongsTo(League::class, 'league_id', 'league_id');
     }
 
     public function level()

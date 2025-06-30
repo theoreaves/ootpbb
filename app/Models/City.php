@@ -19,7 +19,7 @@ class City extends Model
 
     public function state(): BelongsTo
     {
-        return $this->belongsTo(State::class, 'state_id'); // if `states` table exists
+        return $this->belongsTo(State::class, 'state_id', 'state_id'); // if `states` table exists
     }
 
     public function mainLanguage(): BelongsTo
