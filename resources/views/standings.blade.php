@@ -44,7 +44,6 @@
                         <th class="py-2 px-3 font-medium text-xs text-left">Team</th>
                         <th class="py-2 px-3 font-medium text-xs">W</th>
                         <th class="py-2 px-3 font-medium text-xs">L</th>
-                        <th class="py-2 px-3 font-medium text-xs">T</th>
                         <th class="py-2 px-3 font-medium text-xs">PCT</th>
                         <th class="py-2 px-3 font-medium text-xs">GB</th>
                         <th class="py-2 px-3 font-medium text-xs">Streak</th>
@@ -65,7 +64,6 @@
                             </td>
                             <td class="py-2 px-3 text-center">{{ $record->w }}</td>
                             <td class="py-2 px-3 text-center">{{ $record->l }}</td>
-                            <td class="py-2 px-3 text-center">{{ $record->t }}</td>
                             <td class="py-2 px-3 text-center">{{ number_format($record->pct, 3) }}</td>
                             <td class="py-2 px-3 text-center">{{ $record->gb }}</td>
                             <td class="py-2 px-3 text-center">{{ $record->streak }}</td>
