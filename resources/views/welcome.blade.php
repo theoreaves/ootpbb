@@ -29,51 +29,8 @@
         :league="$league"
     />
 
-        @if(isset($groupedStandings) && $groupedStandings->count())
-
-{{--            <div class="flex flex-1 mt-20">--}}
-{{--                @foreach($games as $game)--}}
-{{--                    <div class="w-1/6">--}}
-{{--                        <div class="flex flex-1 justify-between w-full">--}}
-{{--                            <div>--}}
-{{--                                {{ $game->awayTeam->name ?? 'Unknown' }}--}}
-{{--                            </div>--}}
-{{--                            <div></div>--}}
-{{--                            <div class="flex flex-1">--}}
-{{--                                <div>--}}
-{{--                                    {{ $game->runs0 ?? 'Unknown' }}--}}
-{{--                                </div>--}}
-{{--                                <div>--}}
-{{--                                    {{ $game->hits0 ?? 'Unknown' }}--}}
-{{--                                </div>--}}
-{{--                                <div>--}}
-{{--                                    {{ $game->errors0 ?? 'Unknown' }}--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="flex flex-1 justify-between w-full">--}}
-{{--                            <div>--}}
-{{--                                {{ $game->homeTeam->name ?? 'Unknown' }}--}}
-{{--                            </div>--}}
-{{--                            <div></div>--}}
-{{--                            <div class="flex flex-1">--}}
-{{--                                <div>--}}
-{{--                                    {{ $game->runs1 ?? 'Unknown' }}--}}
-{{--                                </div>--}}
-{{--                                <div>--}}
-{{--                                    {{ $game->hits1 ?? 'Unknown' }}--}}
-{{--                                </div>--}}
-{{--                                <div>--}}
-{{--                                    {{ $game->errors1 ?? 'Unknown' }}--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
-<div class="mt-20 gap-4 text-2xl">
-    Latest Scores
-</div>
+<div class="grid grid-cols-3">
+    <div class="col-span-3 mt-10">
 <div class="flex flex-1 gap-4">
     @foreach($games as $game)
         <div class="w-full md:w-1/3 lg:w-1/4 xl:w-1/6 bg-gray-100 rounded shadow p-4">
@@ -96,6 +53,7 @@
             </div>
             <div class="flex justify-between items-center border-b pb-1 mb-1">
                 <div class="font-semibold">
+                    <img src="/storage/images/team_logos/{{ $game->awayTeam->small_logo }}" alt="{{ $game->awayTeam->name }}" class="w-6 h-6 object-contain inline-block mr-1" />
                     {{ $game->awayTeam->name ?? 'Unknown' }}
                 </div>
                 <div class="text-right flex gap-2">
@@ -106,6 +64,7 @@
             </div>
             <div class="flex justify-between items-center">
                 <div class="font-semibold">
+                    <img src="/storage/images/team_logos/{{ $game->homeTeam->small_logo }}" alt="{{ $game->homeTeam->name }}" class="w-6 h-6 object-contain inline-block mr-1" />
                     {{ $game->homeTeam->name ?? 'Unknown' }}
                 </div>
                 <div class="text-right flex gap-2">
@@ -117,9 +76,177 @@
         </div>
     @endforeach
 </div>
+    </div>
 
+    <div class="ml-10 mt-8">
+        <h3 class="text-lg font-bold mb-2">{{ $league->abbr }} BATTING LEADERS</h3>
+        <div class="mb-3">
+            <div class="font-semibold">BATTING AVG</div>
+            @foreach($battingLeadersByAvg as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            AVG:{{ ltrim(number_format($leader->h / $leader->ab, 3), '0') }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="mb-3">
+            <div class="font-semibold">HOME RUNS</div>
+            @foreach($battingLeadersByHr as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            Home Runs: {{ $leader->hr }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="mb-3">
+            <div class="font-semibold">RUNS BATTED IN</div>
+            @foreach($battingLeadersByRbi as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            RBI: {{ $leader->rbi }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="mb-3">
+            <div class="font-semibold">STOLEN BASES</div>
+            @foreach($battingLeadersBySb as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            RBI: {{ $leader->sb }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
 
-            <div class="flex flex-col lg:flex-row gap-8 w-full justify-center items-start">
+    <div class="ml-10 mt-8">
+        <h3 class="text-lg font-bold mb-2">{{ $league->abbr }} PITCHING LEADERS</h3>
+        <div class="mb-3">
+            <div class="font-semibold">EARNED RUN AVERAGE</div>
+            @foreach($pitchingLeadersByEra as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            ERA: {{ number_format(($leader->er * 9) / $leader->ip, 2) }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="mb-3">
+            <div class="font-semibold">WINS</div>
+            @foreach($pitchingLeadersByWins as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            Wins: {{ $leader->w }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="mb-3">
+            <div class="font-semibold">STRIKEOUTS</div>
+            @foreach($pitchingLeadersByStrikeouts as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            Wins: {{ $leader->k }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="mb-3">
+            <div class="font-semibold">INNINGS PITCHED</div>
+            @foreach($pitchingLeadersByIp as $leader)
+                <div class="flex items-center space-x-4 mb-2">
+                    <a href="{{ route('players.show', $leader->player_id) }}">
+                        <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
+                    </a>
+                    <div>
+                        <div class="font-semibold hover:text-blue-500">
+                            <a href="{{ route('players.show', $leader->player_id) }}">
+                                {{ $leader->player->name }}
+                            </a>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            Wins: {{ $leader->ip }}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+            <div class="gap-8 w-full justify-center items-start">
                 @foreach($groupedStandings as $subleagueKey => $standings)
                     <div class="flex-1 min-w-[350px] max-w-lg">
                         <h2 class="text-2xl font-semibold mb-4 mt-8 text-center">
@@ -155,8 +282,8 @@
                                         <td class="py-2 px-3 text-center">{{ $record->l }}</td>
                                         <td class="py-2 px-3 text-center">{{ $record->t }}</td>
                                         <td class="py-2 px-3 text-center">{{ number_format($record->pct, 3) }}</td>
-                                        <td class="py-2 px-3 text-center">{{ $record->gb }}</td>
-                                        <td class="py-2 px-3 text-center">{{ $record->streak }}</td>
+                                        <td class="py-2 px-3 text-center">{{ $record->gb == 0 ? '-' : $record->gb }}</td>
+                                        <td class="py-2 px-3 text-center">{{ $record->streak_text}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -164,6 +291,8 @@
                     </div>
                 @endforeach
             </div>
-        @endif
+
+
+</div>
     </body>
 </html>

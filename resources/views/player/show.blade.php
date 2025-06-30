@@ -48,7 +48,7 @@
                 <a href="#career-fielding" class="hover:text-blue-500 font-bold">Career Fielding</a>
             </div>
             <div>
-            <img src="/storage/images/profile_pictures/player_{{ $player->player_id }}.png" alt="">
+            <img src="/storage/images/person_pictures/player_{{ $player->player_id }}.png" alt="">
          </div>
         </div>
 

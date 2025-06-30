@@ -30,10 +30,12 @@
     />
 
 @if(isset($groupedStandings) && $groupedStandings->count())
-    <div class="flex flex-col lg:flex-row gap-8 w-full justify-center items-start">
+    <div class="lg:flex-row gap-8 w-full justify-center items-start">
+        <div class="flex justify-center w-full">
         <div class="text-2xl">Standings</div>
+        </div>
         @foreach($groupedStandings as $subleagueKey => $standings)
-            <div class="flex-1 min-w-[350px] max-w-lg">
+            <div class="flex-1 ">
                 <h2 class="text-2xl font-semibold mb-4 mt-8 text-center">
                     {{ $subleagues->where('sub_league_id', $subleagueKey)->first()->name ?? "Subleague" . $subleagueKey }}
                 </h2>
@@ -45,8 +47,14 @@
                         <th class="py-2 px-3 font-medium text-xs">W</th>
                         <th class="py-2 px-3 font-medium text-xs">L</th>
                         <th class="py-2 px-3 font-medium text-xs">PCT</th>
+                        <th class="py-2 px-3 font-medium text-xs">G</th>
                         <th class="py-2 px-3 font-medium text-xs">GB</th>
+                        <th class="py-2 px-3 font-medium text-xs">Home</th>
+                        <th class="py-2 px-3 font-medium text-xs">Away</th>
+                        <th class="py-2 px-3 font-medium text-xs">Last 10</th>
+                        <th class="py-2 px-3 font-medium text-xs">Run Diff</th>
                         <th class="py-2 px-3 font-medium text-xs">Streak</th>
+                        <th class="py-2 px-3 font-medium text-xs">Magic Number</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,9 +72,17 @@
                             </td>
                             <td class="py-2 px-3 text-center">{{ $record->w }}</td>
                             <td class="py-2 px-3 text-center">{{ $record->l }}</td>
-                            <td class="py-2 px-3 text-center">{{ number_format($record->pct, 3) }}</td>
-                            <td class="py-2 px-3 text-center">{{ $record->gb }}</td>
-                            <td class="py-2 px-3 text-center">{{ $record->streak }}</td>
+                            <td class="py-2 px-3 text-center">{{ ltrim(number_format($record->pct, 3), '0') }}</td>
+                            <td class="py-2 px-3 text-center">{{ $record->g == 0 ? '-' : $record->g }}</td>
+                            <td class="py-2 px-3 text-center">{{ $record->gb == 0 ? '-' : $record->gb }}</td>
+
+                            <td class="py-2 px-3 text-center">{{ $expandedStandings->where('team_id', $record->team_id)->first()->home_record }}</td>
+                            <td class="py-2 px-3 text-center">{{ $expandedStandings->where('team_id', $record->team_id)->first()->away_record }}</td>
+                            <td class="py-2 px-3 text-center">{{ $expandedStandings->where('team_id', $record->team_id)->first()->last10 }}</td>
+                            <td class="py-2 px-3 text-center">{{ $expandedStandings->where('team_id', $record->team_id)->first()->run_diff }}</td>
+
+                            <td class="py-2 px-3 text-center">{{ $record->streak_text }}</td>
+                            <td class="py-2 px-3 text-center">{{ $record->magic_number != 1000 ? $record->magic_number : '' }}</td>
                         </tr>
                     @endforeach
                     </tbody>

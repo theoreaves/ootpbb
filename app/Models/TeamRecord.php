@@ -62,4 +62,14 @@ class TeamRecord extends Model
         return $this->belongsTo(Team::class, 'team_id', 'team_id');
     }
 
+    public function getStreakTextAttribute()
+    {
+        if ($this->streak > 0) {
+            return 'W' . $this->streak;
+        } elseif ($this->streak < 0) {
+            return 'L' . abs($this->streak);
+        }
+        return 'T';
+    }
+
 }

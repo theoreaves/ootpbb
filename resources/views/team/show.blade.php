@@ -22,7 +22,7 @@
     @if($lastGames->isEmpty())
         <p class="text-gray-500 mb-4">No previous games found.</p>
     @else
-        <ul class="mb-4 divide-y divide-gray-200">
+        <ul class="mb-4 ">
             @foreach($lastGames as $game)
                 @php
                     $isHome = $game->home_team == $team->team_id;
@@ -34,7 +34,7 @@
                     $sep = $isHome ? 'vs' : '@';
                 @endphp
                 <li class="py-2 flex items-center">
-                    <a href="{{ route('games.boxscore', ['game' => $game->game_id]) }}" class="hover:underline text-blue-700 flex items-center">
+                    <a href="{{ route('games.boxscore', ['game' => $game->game_id]) }}" class="hover:text-blue-500 flex items-center">
                         <span class="font-semibold mr-2">{{ \Carbon\Carbon::parse($game->date)->format('M d, Y') }}</span>
                         &mdash;
                         <span class="mx-2">{{ $sep }}</span>
@@ -54,7 +54,7 @@
     @if($nextGames->isEmpty())
         <p class="text-gray-500 mb-4">No upcoming games found.</p>
     @else
-        <ul class="mb-4 divide-y divide-gray-200">
+        <ul class="mb-4 ">
             @foreach($nextGames as $game)
                 @php
                     $isHome = $game->home_team == $team->team_id;
@@ -77,7 +77,7 @@
     {{-- Subleague Standings --}}
     <div>
     @if(isset($subleague) && isset($standings) && $standings->count())
-        <h2 class="mt-8 mb-4 text-xl font-semibold text-gray-600">
+        <h2 class="mb-4 text-xl font-semibold text-gray-600">
             {{ $subleague->name ?? 'Subleague' }} Standings
         </h2>
         <table class="min-w-[350px] w-full border border-zinc-200 rounded-lg overflow-hidden shadow mb-8 bg-white">
@@ -96,14 +96,14 @@
                     <tr class="even:bg-zinc-100 hover:bg-zinc-200 transition-colors {{ $record->team->team_id == $team->team_id ? 'font-bold bg-blue-50' : '' }}">
                         <td class="py-2 px-3 text-center">{{ $record->pos }}</td>
                         <td class="py-2 px-3 text-left font-medium">
-                            <a href="{{ route('teams.show', ['team' => $record->team->team_id]) }}" class="text-blue-600 hover:underline">
+                            <a href="{{ route('teams.show', ['team' => $record->team->team_id]) }}" class="hover:text-blue-500">
                                 {{ $record->team->name ?? 'Unknown' }}
                             </a>
                         </td>
                         <td class="py-2 px-3 text-center">{{ $record->w }}</td>
                         <td class="py-2 px-3 text-center">{{ $record->l }}</td>
                         <td class="py-2 px-3 text-center">{{ number_format($record->pct, 3) }}</td>
-                        <td class="py-2 px-3 text-center">{{ $record->gb }}</td>
+                        <td class="py-2 px-3 text-center">{{ $record->gb == 0 ? '-' : $record->gb }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -113,7 +113,7 @@
 
     <div>
     @if($teamStats)
-        <h2 class="text-xl font-bold mt-6 text-center">Team Stats</h2>
+        <h2 class="text-xl font-bold text-center">Team Stats</h2>
         <table class="mt-2 mb-4 w-full">
             <tbody>
             <tr><td class="px-3 py-1 text-right font-bold">Runs Scored</td><td>{{ $teamStats['runs'] }} ({{ $teamStats['rankings']['runs'] }}{{ ordinal($teamStats['rankings']['runs']) }})</td></tr>
@@ -137,7 +137,7 @@
                 @foreach($battingLeadersByAvg as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                         <div>
                             <div class="font-semibold hover:text-blue-500">
@@ -157,7 +157,7 @@
                 @foreach($battingLeadersByHr as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                         <div>
                             <div class="font-semibold hover:text-blue-500">
@@ -177,7 +177,7 @@
                 @foreach($battingLeadersByRbi as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                         <div>
                             <div class="font-semibold hover:text-blue-500">
@@ -197,7 +197,7 @@
                 @foreach($battingLeadersBySb as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                         <div>
                             <div class="font-semibold hover:text-blue-500">
@@ -221,7 +221,7 @@
                 @foreach($pitchingLeadersByEra as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                     <div>
                         <div class="font-semibold hover:text-blue-500">
@@ -241,7 +241,7 @@
                 @foreach($pitchingLeadersByWins as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                         <div>
                             <div class="font-semibold hover:text-blue-500">
@@ -261,7 +261,7 @@
                 @foreach($pitchingLeadersByStrikeouts as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                         <div>
                             <div class="font-semibold hover:text-blue-500">
@@ -281,7 +281,7 @@
                 @foreach($pitchingLeadersByIp as $leader)
                     <div class="flex items-center space-x-4 mb-2">
                         <a href="{{ route('players.show', $leader->player_id) }}">
-                            <img src="/storage/images/profile_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-12 h-12 rounded">
+                            <img src="/storage/images/person_pictures/player_{{ $leader->player->player_id }}.png" alt="{{ $leader->player->full_name }}" class="w-8 rounded">
                         </a>
                         <div>
                             <div class="font-semibold hover:text-blue-500">

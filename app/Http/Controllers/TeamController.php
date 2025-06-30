@@ -11,6 +11,7 @@ use App\Models\Player;
 use App\Models\Game;
 use App\Models\TeamRecord;
 use App\Models\SubLeague;
+use App\Services\OotpSeasonService;
 use App\Services\TeamStatRankingService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,30 +23,18 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail($teamId);
 
-        // Get rostered players for this team
-        $rosterPlayerIds = TeamRoster::where('team_id', $teamId)->pluck('player_id');
-        $players = Player::whereIn('player_id', $rosterPlayerIds)
-            ->orderBy('position')
-            ->get();
 
-
+        $currentYear = OotpSeasonService::currentYear();
 
         $battingLeaders = PlayersCareerBattingStat::with('player')
             ->where('team_id', $teamId)
             ->where('split_id', 1)
-            ->where('year', 2064)
+            ->where('year', $currentYear)
             ->get();
-
-//        $battingLeadersByAvg = $battingLeaders->filter(fn($s) => $s->ab > 0)
-//            ->sortByDesc(fn($s) => $s->h / $s->ab)->take(3);
-
         $battingLeadersByAvg = $battingLeaders
             ->filter(fn($s) => $s->g > 0 && ($s->ab / $s->g) >= 3)
             ->sortByDesc(fn($s) => $s->ab > 0 ? $s->h / $s->ab : 0)
             ->take(3);
-
-
-
         $battingLeadersByHr = $battingLeaders->sortByDesc('hr')->take(3);
         $battingLeadersByRbi = $battingLeaders->sortByDesc('rbi')->take(3);
         $battingLeadersBySb = $battingLeaders->sortByDesc('sb')->take(3);
@@ -53,16 +42,12 @@ class TeamController extends Controller
         $pitchingLeaders = PlayersCareerPitchingStat::with('player')
             ->where('team_id', $teamId)
             ->where('split_id', 1)
-            ->where('year', 2064)
+            ->where('year', $currentYear)
             ->get();
-
-//        $pitchingLeadersByEra = $pitchingLeaders->filter(fn($s) => $s->ip > 0)
-//            ->sortBy(fn($s) => ($s->er * 9) / $s->ip)->take(3);
         $pitchingLeadersByEra = $pitchingLeaders
             ->filter(fn($s) => $s->g > 0 && ($s->ip / $s->g) >= 1)
             ->sortBy(fn($s) => $s->ip > 0 ? ($s->er * 9) / $s->ip : INF)
             ->take(3);
-
         $pitchingLeadersByWins = $pitchingLeaders->sortByDesc('w')->take(3);
         $pitchingLeadersByStrikeouts = $pitchingLeaders->sortByDesc('k')->take(3);
         $pitchingLeadersByIp = $pitchingLeaders->sortByDesc('ip')->take(3);
@@ -71,14 +56,6 @@ class TeamController extends Controller
 
 
 
-
-        // Group players by role
-        $grouped = [
-            'Pitchers' => $players->where('position', 1),
-            'Catchers' => $players->where('position', 2),
-            'Infielders' => $players->whereIn('position', [3, 4, 5, 6]),
-            'Outfielders' => $players->whereIn('position', [7, 8, 9]),
-        ];
 
         // Fetch last 3 games where played is 1 and next 3 games where played is not 1
         $lastGames = Game::where(function ($query) use ($teamId) {
@@ -112,7 +89,7 @@ class TeamController extends Controller
             ->orderBy('pos')
             ->get();
 
-        $rankingService = new TeamStatRankingService(2064);
+        $rankingService = new TeamStatRankingService($currentYear);
         $rankings = $rankingService->getRankings();
         $teamStats = $rankings[$teamId] ?? null;
 
@@ -129,9 +106,9 @@ class TeamController extends Controller
 //        ]);
 
         return view('team.show', compact(
-            'team', 'grouped', 'lastGames', 'nextGames', 'subleague', 'standings',
+            'team', 'lastGames', 'nextGames', 'subleague', 'standings',
             'battingLeadersByAvg', 'battingLeadersByHr', 'battingLeadersByRbi', 'battingLeadersBySb',
-            'teamStats', 'players',
+            'teamStats',
             'pitchingLeadersByEra', 'pitchingLeadersByWins', 'pitchingLeadersByStrikeouts', 'pitchingLeadersByIp'
         ));
 
@@ -167,7 +144,9 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail($teamId);
         $split = $request->query('split', 1);
-        $year = $request->query('year', 2064); // Default year
+
+        $currentYear = OotpSeasonService::currentYear();
+        $year = $request->query('year', $currentYear); // Default year
 
         // Get all distinct years from batting stats table (assumes all tables have similar years)
         $availableYears = DB::table('players_career_batting_stats')
@@ -208,16 +187,19 @@ class TeamController extends Controller
     public function stats1($teamId)
     {
         $team = Team::findOrFail($teamId);
+
+        $currentYear = OotpSeasonService::currentYear();
+
         $battingStats = PlayersCareerBattingStat::where('team_id', $teamId)
-            ->where('year', 2064)
+            ->where('year', $currentYear)
             ->where('split_id', 1) // Assuming split_id 1 is for full season stats
             ->get();
         $pitchingStats = PlayersCareerPitchingStat::where('team_id', $teamId)
-            ->where('year', 2064)
+            ->where('year', $currentYear)
             ->where('split_id', 1) // Assuming split_id 1 is for full season stats
             ->get();
         $fieldingStats = PlayersCareerFieldingStat::where('team_id', $teamId)
-            ->where('year', 2064)
+            ->where('year', $currentYear)
 //            ->where('split_id', 1) // Assuming split_id 1 is for full season stats
             ->get();
 

@@ -17,8 +17,8 @@ class TeamStatRankingService
 
     public function getRankings(): Collection
     {
-        $batting = PlayersCareerBattingStat::where('year', $this->year)->get();
-        $pitching = PlayersCareerPitchingStat::where('year', $this->year)->get();
+        $batting = PlayersCareerBattingStat::where('year', $this->year)->where('league_id', config('app.league_id'))->get();
+        $pitching = PlayersCareerPitchingStat::where('year', $this->year)->where('league_id', config('app.league_id'))->get();
 
         $teams = $batting->groupBy('team_id')->map(function ($players, $teamId) use ($pitching) {
             $teamPitching = $pitching->where('team_id', $teamId);
