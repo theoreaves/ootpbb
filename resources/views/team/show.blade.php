@@ -128,7 +128,12 @@
     @endif
     </div>
 
-    <div></div>
+    <div class="">
+        <h2 class="text-xl font-bold text-center">{{ $team->park->name }}</h2>
+        <div>
+            <img src="/storage/stadiums/{{ strtolower(str_replace(' ', '_', $team->park->name)) }}.png" alt="">
+        </div>
+    </div>
 
         <div class="ml-10">
             <h3 class="text-lg font-bold mb-2">TEAM BATTING LEADERS</h3>

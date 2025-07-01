@@ -53,15 +53,11 @@ class TeamController extends Controller
         $pitchingLeadersByIp = $pitchingLeaders->sortByDesc('ip')->take(3);
 
 
-
-
-
-
         // Fetch last 3 games where played is 1 and next 3 games where played is not 1
         $lastGames = Game::where(function ($query) use ($teamId) {
-                $query->where('home_team', $teamId)
-                      ->orWhere('away_team', $teamId);
-            })
+            $query->where('home_team', $teamId)
+                ->orWhere('away_team', $teamId);
+        })
             ->where('played', 1)
             ->orderByDesc('date')
             ->limit(3)
@@ -69,9 +65,9 @@ class TeamController extends Controller
             ->reverse(); // So they are in chronological order
 
         $nextGames = Game::where(function ($query) use ($teamId) {
-                $query->where('home_team', $teamId)
-                      ->orWhere('away_team', $teamId);
-            })
+            $query->where('home_team', $teamId)
+                ->orWhere('away_team', $teamId);
+        })
             ->where('played', '!=', 1)
             ->orderBy('date')
             ->limit(3)
@@ -84,7 +80,7 @@ class TeamController extends Controller
             ->whereHas('team', function ($query) use ($team, $subleagueId) {
                 $query->where('sub_league_id', $subleagueId)
                     ->where('league_id', $team->league_id)
-                      ->where('allstar_team', '!=', 1);
+                    ->where('allstar_team', '!=', 1);
             })
             ->orderBy('pos')
             ->get();
@@ -111,7 +107,6 @@ class TeamController extends Controller
             'teamStats',
             'pitchingLeadersByEra', 'pitchingLeadersByWins', 'pitchingLeadersByStrikeouts', 'pitchingLeadersByIp'
         ));
-
 
 
     }
@@ -251,5 +246,14 @@ class TeamController extends Controller
 
         $gamesByDate = $gamesInMonth->groupBy(fn($game) => Carbon::parse($game->date)->toDateString());
         return view('team.schedule-calendar', compact('team', 'gamesByDate', 'month'));
+    }
+
+
+    public function stadium($teamId)
+    {
+        $team = Team::findOrFail($teamId);
+
+
+        return view('team.stadium', compact('team'));
     }
 }

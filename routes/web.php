@@ -30,6 +30,7 @@ Route::get('team/{team}', [TeamController::class, 'show'])->name('teams.show');
 Route::get('team/{team}/roster', [TeamController::class, 'roster'])->name('teams.roster');
 Route::get('team/{team}/schedule', [TeamController::class, 'schedule'])->name('teams.schedule');
 Route::get('team/{team}/stats', [TeamController::class, 'stats'])->name('teams.stats');
+Route::get('team/{team}/stadium', [TeamController::class, 'stadium'])->name('teams.stadium');
 Route::get('player/{player}', [PlayerController::class, 'show'])->name('players.show');
 
 Route::get('/games/{game}/boxscore', [GameController::class, 'boxscore'])->name('games.boxscore');

@@ -62,6 +62,10 @@ class Team extends Model
         return $this->hasMany(Game::class, 'team_id'); // If `team_id` appears in games table
     }
 
+    public function park()
+    {
+        return $this->belongsTo(Park::class, 'park_id', 'park_id');
+    }
     public function getSmallLogoAttribute()
     {
         $small_image = strtolower(str_replace(' ', '_', $this->name . '_' . $this->nickname)) . '_small.png';
