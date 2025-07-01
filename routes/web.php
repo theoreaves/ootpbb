@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\SqlDumpController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -36,5 +37,6 @@ Route::get('player/{player}', [PlayerController::class, 'show'])->name('players.
 Route::get('/games/{game}/boxscore', [GameController::class, 'boxscore'])->name('games.boxscore');
 Route::get('/games/{game}/game_log', [GameController::class, 'game_log'])->name('games.game_log');
 
+Route::post('/api/upload-sql-zip', [SqlDumpController::class, 'upload'])->name('api.upload-sql-zip');
 
 require __DIR__.'/auth.php';
