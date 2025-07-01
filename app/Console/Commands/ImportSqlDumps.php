@@ -41,14 +41,26 @@ class ImportSqlDumps extends Command
         foreach ($files as $file) {
             $this->line("→ Importing: " . basename($file));
 
-            $process = Process::fromShellCommandline(sprintf(
+//            $process = Process::fromShellCommandline(sprintf(
 //                'mysql -h%s -u%s -p%s %s < %s',
-                'mysql -h%s -u%s %s < %s',
+//                escapeshellarg($dbConfig['host']),
+//                escapeshellarg($dbConfig['username']),
+//                escapeshellarg($dbConfig['password']),
+//                escapeshellarg($dbConfig['database']),
+//                escapeshellarg($file)
+//            ));
+
+            $command = sprintf(
+                'mysql -h%s -u%s %s %s < %s',
                 escapeshellarg($dbConfig['host']),
                 escapeshellarg($dbConfig['username']),
+                $dbConfig['password'] !== '' ? '-p' . escapeshellarg($dbConfig['password']) : '',
                 escapeshellarg($dbConfig['database']),
                 escapeshellarg($file)
-            ));
+            );
+
+            $process = Process::fromShellCommandline($command);
+
 
             $process->setTimeout(null);
             $process->run();
