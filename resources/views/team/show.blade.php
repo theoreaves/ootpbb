@@ -30,7 +30,7 @@
                     $opponent = $opponentTeam->name ?? 'Unknown';
                     $teamScore = $isHome ? ($game->runs0 ?? 0) : ($game->runs1 ?? 0);
                     $oppScore = $isHome ? ($game->runs1 ?? 0) : ($game->runs0 ?? 0);
-                    $result = $teamScore > $oppScore ? 'W' : 'L';
+                    $result = $teamScore > $oppScore ? 'L' : 'W';
                     $sep = $isHome ? 'vs' : '@';
                 @endphp
                 <li class="py-2 flex items-center">
