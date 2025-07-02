@@ -14,7 +14,7 @@
 @section('content')
 <x-team-header :team="$team" />
 
-<div class="w-3/4 mt-20 mx-auto my-8 bg-gray-50 rounded-lg p-8 shadow grid grid-cols-3">
+<div class="w-3/4 mt-20 mx-auto my-8 bg-gray-50 rounded-lg p-8 shadow md:grid md:grid-cols-3">
 
     <div>
         {{-- Last 3 Games --}}

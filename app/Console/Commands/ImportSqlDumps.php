@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Process;
 
+
 class ImportSqlDumps extends Command
 {
     protected $signature = 'import:sql-dumps {path? : The directory of .sql files}';
@@ -72,6 +73,38 @@ class ImportSqlDumps extends Command
                 $this->info("✅ Done");
             }
         }
+
+        foreach ($files as $file) {
+            $this->info("Importing file to remote: " . basename($file));
+
+            $sshUser = 'forge';
+            $sshHost = '147.182.136.24';
+            $remoteDb = 'forge';         // Change if needed
+            $remoteUser = 'forge';       // Change if needed
+            $mysqlPassword = 'ghG0zSer9XNlmhcSiglP';         // Set if needed
+
+            $command = sprintf(
+                'ssh %s@%s "mysql -u%s %s %s" < %s',
+                $sshUser,
+                $sshHost,
+                $remoteUser,
+                $mysqlPassword ? ('-p' . escapeshellarg($mysqlPassword)) : '',
+                escapeshellarg($remoteDb),
+                escapeshellarg($file)
+            );
+
+            $process = Process::fromShellCommandline($command);
+
+            $result = $process->run();
+
+            if ($process->isSuccessful()) {
+                $this->info('Remote import success: ' . basename($file));
+            } else {
+                $this->error("Failed to import remotely: " . $process->getErrorOutput());
+                return 1;
+            }
+        }
+
 
         return 0;
     }

@@ -24,7 +24,7 @@
             <h3 class="text-xl text-gray-700 ">Team: Unassigned</h3>
         @endif
 
-        <div class="flex flex1 justify-between w-full">
+        <div class="md:flex md:flex1 justify-between w-full">
         <div>
         <h3 class="text-xl text-gray-700 ">
             Position: {{ $player->position ? $player->position_name : 'Unassigned' }}

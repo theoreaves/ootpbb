@@ -29,9 +29,9 @@
         :league="$league"
     />
 
-<div class="grid grid-cols-3">
-    <div class="col-span-3 mt-10">
-<div class="flex flex-1 gap-4">
+<div class="md:grid md:grid-cols-3">
+    <div class="md:col-span-3 mt-10">
+<div class="md:flex md:flex-1 gap-4">
     @foreach($games as $game)
         <div class="w-full md:w-1/3 lg:w-1/4 xl:w-1/6 bg-gray-100 rounded shadow p-4">
             <div class="flex justify-between items-center border-b pb-1 mb-1">
