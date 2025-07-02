@@ -88,7 +88,7 @@
                                 if (!$isUnplayed) {
                                     $teamScore = $isHome ? $game->runs0 : $game->runs1;
                                     $opponentScore = $isHome ? $game->runs1 : $game->runs0;
-                                    $result = $teamScore > $opponentScore ? 'Win' : 'Loss';
+                                    $result = $teamScore > $opponentScore ? 'Loss' : 'Win';
                                 }
 
                                 $bg = '';
