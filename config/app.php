@@ -123,5 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
     'league_id' => env('LEAGUE_ID', 200),
+    'remote_server' => env('REMOTE_SERVER')
 
-];
+
+    ];
