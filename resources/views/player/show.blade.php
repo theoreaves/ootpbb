@@ -48,7 +48,7 @@
                 <a href="#career-fielding" class="hover:text-blue-500 font-bold">Career Fielding</a>
             </div>
 
-            <div class="bg-cover bg-center flex items-end  " style="background-image: url('/storage/stadiums/{{ strtolower(str_replace(' ', '_', $team->park->name)) }}.png' );">
+            <div class="bg-cover bg-center flex items-end border border-2  " style="background-image: url('/storage/stadiums/{{ strtolower(str_replace(' ', '_', $team->park->name)) }}.png' );">
                 <img src="/storage/images/person_pictures/player_{{ $player->player_id }}.png" alt="" class="max-h-full">
             </div>
         </div>
