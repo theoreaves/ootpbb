@@ -40,6 +40,8 @@ class PlayerController extends Controller
             ->orderBy('year', 'asc')
             ->get();
 
+        $awards = $player->awards;   //->where('league_id', $player->team->league_id);
+
         return view('player.show', [
             'player' => $player,
             'team' => $team,
@@ -49,6 +51,7 @@ class PlayerController extends Controller
             'careerBatting' => $careerBatting,
             'careerPitching' => $careerPitching,
             'careerFielding' => $careerFielding,
+            'awards' => $awards,
         ]);
     }
 }

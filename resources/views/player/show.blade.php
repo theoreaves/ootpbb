@@ -45,7 +45,8 @@
             <div class="mb-4">
                 <a href="#career-batting" class="hover:text-blue-500 mr-4 font-bold">Career Batting</a>
                 <a href="#career-pitching" class="hover:text-blue-500 mr-4 font-bold">Career Pitching</a>
-                <a href="#career-fielding" class="hover:text-blue-500 font-bold">Career Fielding</a>
+                <a href="#career-fielding" class="hover:text-blue-500 mr-4 font-bold">Career Fielding</a>
+                <a href="#awards" class="hover:text-blue-500 font-bold">Awards</a>
             </div>
 
             <div class="bg-cover bg-center flex items-end border border-2  " style="background-image: url('/storage/stadiums/{{ strtolower(str_replace(' ', '_', $team->park->name)) }}.png' );">
@@ -408,5 +409,46 @@
             </tbody>
         </table>
 
+        <h2 id="awards" class="text-2xl font-semibold mt-8 mb-2">Awards</h2>
+        @if($awards->count())
+            @php
+                $season = '0000';
+            @endphp
+            <div class="mb-4">
+                <ul class="list-disc list-inside text-gray-700">
+                    @foreach($awards as $award)
+                        @if ($season != $award->year)
+                            @php
+                                $season = $award->year;
+                            @endphp
+                            <li class="font-bold mt-2">{{ $season }}</li>
+                        @endif
+                        <li>
+{{--                            {{ $award->award_id }}:--}}
+{{--                            @if(!empty($award->year)) {{ $award->year }} @endif--}}
+                            @if($award->finish != 1)
+                                Finished {{ $award->finish . ordinal_suffix($award->finish) }}
+                            @endif
+
+                            {{ $award->awardname }}
+                            @if(!empty($award->team)) ({{ $award->team->name }}) @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
     </div>
+@php
+    function ordinal_suffix($number) {
+        if (!in_array(($number % 100), [11,12,13])){
+            switch ($number % 10) {
+                case 1:  return 'st';
+                case 2:  return 'nd';
+                case 3:  return 'rd';
+            }
+        }
+        return 'th';
+    }
+@endphp
 @endsection

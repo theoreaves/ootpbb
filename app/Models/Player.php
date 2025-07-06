@@ -56,6 +56,10 @@ class Player extends Model
         return $this->hasMany(Coach::class, 'former_player_id');
     }
 
+    public function awards(): HasMany
+    {
+        return $this->hasMany(PlayersAward::class, 'player_id', 'player_id');
+    }
     public function batting_stats()
     {
         return $this->hasMany(PlayersCareerBattingStat::class, 'player_id');
@@ -124,5 +128,4 @@ class Player extends Model
         ];
         return  $positions[$this->position] ?? null;
     }
-
 }
