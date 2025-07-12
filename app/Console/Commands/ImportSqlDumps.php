@@ -14,6 +14,8 @@ class ImportSqlDumps extends Command
 
     public function handle()
     {
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
         $path = $this->argument('path') ?? base_path('database/dumps');
 
         if (!is_dir($path)) {
@@ -32,12 +34,12 @@ class ImportSqlDumps extends Command
 
         $dbConfig = config('database.connections.mysql');
 
-        dump('mysql -h%s -u%s -p%s %s < %s',
-                escapeshellarg($dbConfig['host']),
-                escapeshellarg($dbConfig['username']),
-                escapeshellarg($dbConfig['password']),
-                escapeshellarg($dbConfig['database']),
-                escapeshellarg('/file/path.sql'));
+//        dump('mysql -h%s -u%s -p%s %s < %s',
+//                escapeshellarg($dbConfig['host']),
+//                escapeshellarg($dbConfig['username']),
+//                escapeshellarg($dbConfig['password']),
+//                escapeshellarg($dbConfig['database']),
+//                escapeshellarg('/file/path.sql'));
 
         foreach ($files as $file) {
             $this->line("→ Importing: " . basename($file));
@@ -73,6 +75,9 @@ class ImportSqlDumps extends Command
                 $this->info("✅ Done");
             }
         }
+        $this->info("✅ ALL Done!!!!");
+
+        return 0;
 
         foreach ($files as $file) {
             $this->info("Importing file to remote: " . basename($file));
